@@ -14,10 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Properties;
 
 public class EquipoController {
     @FXML
@@ -56,18 +53,7 @@ public class EquipoController {
     }
 
     private SessionFactory crearSessionFactory() {
-        Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
-        Properties properties = new Properties();
-        try (InputStream input = getClass().getResourceAsStream("/hibernate-local.properties")) {
-            if (input == null) {
-                throw new IllegalStateException("Falta src/main/resources/hibernate-local.properties");
-            }
-            properties.load(input);
-        } catch (IOException e) {
-            throw new IllegalStateException("No se pudo leer hibernate-local.properties", e);
-        }
-        properties.forEach((key, value) -> configuration.setProperty((String) key, (String) value));
-        return configuration.buildSessionFactory();
+        return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
     }
 
     private void configurarCierre() {
